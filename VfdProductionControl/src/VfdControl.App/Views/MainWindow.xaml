@@ -1,0 +1,141 @@
+<Window x:Class="VfdControl.App.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="操作员控制台"
+        Height="880"
+        Width="1500"
+        MinHeight="720"
+        MinWidth="1100"
+        Background="#F3F5F8"
+        FontFamily="Segoe UI, Microsoft YaHei UI, sans-serif">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/VfdControl.App;component/Resources/IndustrialTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource IndustrialBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Background="{StaticResource IndustrialTopbarBrush}"
+                BorderBrush="{StaticResource IndustrialTopbarStrongBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid Margin="18,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="18" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding ModuleTaskTitle}"
+                           VerticalAlignment="Center"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextBrush}" />
+
+                <ItemsControl Grid.Column="2"
+                              ItemsSource="{Binding NavigationItems}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Title}"
+                                    Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding ViewKey}"
+                                    Style="{StaticResource IndustrialTopNavigationButtonStyle}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <StackPanel Grid.Column="3"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Border Padding="10,6"
+                            Background="{StaticResource IndustrialSelectionBrush}"
+                            BorderBrush="{StaticResource IndustrialAccentBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBlock Text="{Binding AppModeDisplay}"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource IndustrialAccentStrongBrush}" />
+                    </Border>
+                    <Border Margin="8,0,0,0"
+                            Padding="10,6"
+                            Background="{StaticResource IndustrialSuccessSurfaceBrush}"
+                            BorderBrush="{StaticResource IndustrialSuccessBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBlock Text="{Binding ReadinessDisplay}"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F7A45" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Background="{StaticResource IndustrialSurfaceBrush}"
+                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid Margin="22,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding ModuleTaskTitle}"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextBrush}" />
+                    <TextBlock Text="{Binding ModuleTaskHint}"
+                               Margin="0,4,0,0"
+                               FontSize="13"
+                               Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="2"
+                           Text="{Binding CurrentModulePrompt}"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextSecondaryBrush}"
+                           TextTrimming="CharacterEllipsis" />
+
+                <Border Grid.Column="3"
+                        Padding="12,8"
+                        Background="{StaticResource IndustrialMutedPanelBrush}"
+                        BorderBrush="{StaticResource IndustrialBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="9"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding ModuleStatusSummary}"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <ContentControl x:Name="WorkspaceHost"
+                        Grid.Row="2"
+                        Margin="14" />
+    </Grid>
+</Window>

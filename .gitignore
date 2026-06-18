@@ -1,0 +1,55 @@
+# Legacy version-control metadata
+.svn/
+**/.svn/
+**/.git/
+
+# IDE and user state
+.vs/
+**/.vs/
+.idea/
+**/.idea/
+.vscode/
+**/.vscode/
+*.user
+*.suo
+
+# .NET build output
+**/bin/
+**/obj/
+**/.dotnet-home/
+TestResults/
+**/TestResults/
+
+# Python generated files and environments
+**/__pycache__/
+*.py[cod]
+.venv/
+**/.venv/
+venv/
+**/venv/
+
+# JavaScript dependencies and builds
+**/node_modules/
+**/dist/
+**/.cache/
+
+# Runtime and local configuration
+.env
+.env.*
+!.env.example
+**/appsettings.json
+!**/appsettings.example.json
+*.log
+*.db
+*.sqlite
+*.sqlite3
+**/user_backup.json
+branches/media/
+LXMES/media/
+
+# Local archives and temporary files
+*.7z
+*.zip
+*.tmp
+*.bak
+~$*

@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "VfdControl.App": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AppMode": "Serial"
+      }
+    },
+    "VfdControl.App.Simulation": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AppMode": "Simulation"
+      }
+    }
+  }
+}

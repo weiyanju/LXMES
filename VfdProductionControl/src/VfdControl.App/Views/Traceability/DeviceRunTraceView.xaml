@@ -1,0 +1,138 @@
+<UserControl x:Class="VfdControl.App.Views.Traceability.DeviceRunTraceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/VfdControl.App;component/Resources/IndustrialTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="{Binding Title}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextBrush}" />
+                <TextBlock Text="{Binding Summary}"
+                           Margin="0,4,0,0"
+                           FontSize="13"
+                           Foreground="{StaticResource IndustrialTextMutedBrush}" />
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1"
+                          Margin="0,16,0,0"
+                          VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Steps}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,0,0,12"
+                                    Padding="14"
+                                    Style="{StaticResource IndustrialSoftCardStyle}">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding StepName}"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource IndustrialTextBrush}" />
+                                        <TextBlock DockPanel.Dock="Right"
+                                                   Text="{Binding Conclusion}"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource IndustrialAccentStrongBrush}" />
+                                    </DockPanel>
+                                    <TextBlock Text="{Binding Sequence, StringFormat=步骤 {0}}"
+                                               Margin="0,4,0,10"
+                                               FontSize="12"
+                                               Foreground="{StaticResource IndustrialTextMutedBrush}" />
+
+                                    <TextBlock Text="测量数据"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                    <ItemsControl ItemsSource="{Binding Measurements}"
+                                                  Margin="0,6,0,10">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <DockPanel Margin="0,0,0,4">
+                                                    <TextBlock Text="{Binding Key}"
+                                                               Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                                    <TextBlock DockPanel.Dock="Right"
+                                                               Text="{Binding DisplayValue}"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{StaticResource IndustrialTextBrush}" />
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <TextBlock Text="比对结果"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                    <ItemsControl ItemsSource="{Binding Comparisons}"
+                                                  Margin="0,6,0,10">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="0,0,0,6">
+                                                    <TextBlock Text="{Binding Pair}"
+                                                               Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                                    <TextBlock Text="{Binding Message}"
+                                                               Foreground="{StaticResource IndustrialTextMutedBrush}"
+                                                               TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <TextBlock Text="命令追踪"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                    <ItemsControl ItemsSource="{Binding CommandTraces}"
+                                                  Margin="0,6,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="0,0,0,6"
+                                                        Padding="10"
+                                                        BorderBrush="{StaticResource IndustrialBorderBrush}"
+                                                        BorderThickness="1"
+                                                        Background="{StaticResource IndustrialRaisedBrush}">
+                                                    <StackPanel>
+                                                        <DockPanel>
+                                                            <TextBlock Text="{Binding CommandName}"
+                                                                       FontWeight="SemiBold"
+                                                                       Foreground="{StaticResource IndustrialTextBrush}" />
+                                                            <TextBlock DockPanel.Dock="Right"
+                                                                       Text="{Binding Status}"
+                                                                       Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                                        </DockPanel>
+                                                        <TextBlock Text="{Binding RequestJson, StringFormat=请求: {0}}"
+                                                                   Margin="0,6,0,0"
+                                                                   FontSize="12"
+                                                                   Foreground="{StaticResource IndustrialTextMutedBrush}"
+                                                                   TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding ResponseJson, StringFormat=响应: {0}}"
+                                                                   Margin="0,4,0,0"
+                                                                   FontSize="12"
+                                                                   Foreground="{StaticResource IndustrialTextMutedBrush}"
+                                                                   TextWrapping="Wrap" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+    </Grid>
+</UserControl>

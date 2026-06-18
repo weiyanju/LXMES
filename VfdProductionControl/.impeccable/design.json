@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-01T00:00:00+08:00",
+  "title": "Design System: VfdProductionControl",
+  "extensions": {
+    "northStar": "Industrial Control Desk",
+    "colorMeta": {
+      "app-background": {
+        "role": "neutral",
+        "displayName": "Workbench Background",
+        "canonical": "#F4F7F6",
+        "usage": "Main application background."
+      },
+      "shell-surface": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "#FAFCFB",
+        "usage": "Header and content panel surface."
+      },
+      "sidebar-surface": {
+        "role": "neutral",
+        "displayName": "Sidebar Gray-Green",
+        "canonical": "#E7EEEB",
+        "usage": "Persistent navigation rail surface."
+      },
+      "primary-accent": {
+        "role": "primary",
+        "displayName": "Process Green",
+        "canonical": "#58A884",
+        "usage": "Selected navigation borders and positive emphasis."
+      },
+      "success-surface": {
+        "role": "status",
+        "displayName": "Ready Green Surface",
+        "canonical": "#E7F5EC",
+        "usage": "Ready and success status chips."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page-level operator console headings."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Product identity and major shell labels."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Current view names and panel titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Operational copy and readable content blocks."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Status chips, metadata, and compact labels."
+      }
+    },
+    "elevation": {
+      "philosophy": "Flat by default; use tonal layering, borders, and spacing rather than shadows.",
+      "tokens": {}
+    },
+    "componentMeta": {
+      "navigation-button": {
+        "shape": "Square industrial navigation control.",
+        "states": {
+          "default": "Background #EEF3F1, border #D7E1DD, text #243431.",
+          "selected": "Background #D9ECE5, border #58A884, text #163B30."
+        }
+      },
+      "status-chip": {
+        "shape": "Compact bordered state label.",
+        "states": {
+          "ready": "Background #E7F5EC, border #87C59E, text #25613F."
+        }
+      }
+    },
+    "rules": [
+      "Use Process Green as the single primary accent.",
+      "Communicate status with text, iconography, or shape in addition to color.",
+      "Use borders and tonal surfaces instead of routine panel shadows.",
+      "Avoid dark neon styling, marketing-page composition, large decorative gradients, flashy animation, and overly colorful palettes."
+    ],
+    "sourceFiles": [
+      "PRODUCT.md",
+      "src/VfdControl.App/Views/MainWindow.xaml"
+    ]
+  }
+}

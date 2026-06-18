@@ -1,0 +1,513 @@
+<UserControl x:Class="VfdControl.App.Views.Admin.StationConfigView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/VfdControl.App;component/Resources/IndustrialTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="AdminSectionListBoxItemStyle" TargetType="ListBoxItem">
+                <Setter Property="Margin" Value="0,0,0,8" />
+                <Setter Property="Padding" Value="12,10" />
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextSecondaryBrush}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border x:Name="Chrome"
+                                    Background="{StaticResource IndustrialSurfaceBrush}"
+                                    BorderBrush="{StaticResource IndustrialBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource IndustrialAccentStrongBrush}" />
+                                    <Setter TargetName="Chrome" Property="Background" Value="{StaticResource IndustrialSelectionBrush}" />
+                                    <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="HiddenAdminTabItemStyle" TargetType="TabItem">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+
+            <Style x:Key="AdminTableComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource IndustrialComboBoxStyle}">
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="Padding" Value="8,0" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="#CFDAE3" />
+            </Style>
+
+            <Style x:Key="AdminToolbarTextStyle" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+                <Setter Property="LineHeight" Value="16" />
+            </Style>
+
+            <Style x:Key="AdminToolbarIconStyle" TargetType="TextBlock" BasedOn="{StaticResource AdminToolbarTextStyle}">
+                <Setter Property="Margin" Value="0,0,7,0" />
+                <Setter Property="FontFamily" Value="Segoe Fluent Icons" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+
+            <Style x:Key="AdminCenteredCellTextStyle" TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="AdminCenteredCellTextBoxStyle" TargetType="TextBox">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style x:Key="AdminRowActionButtonStyle" TargetType="Button" BasedOn="{StaticResource IndustrialCommandButtonStyle}">
+                <Setter Property="MinHeight" Value="28" />
+                <Setter Property="MinWidth" Value="50" />
+                <Setter Property="Padding" Value="8,2" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style x:Key="AdminIconRowButtonStyle" TargetType="Button" BasedOn="{StaticResource AdminRowActionButtonStyle}">
+                <Setter Property="MinWidth" Value="32" />
+                <Setter Property="Width" Value="32" />
+                <Setter Property="MinHeight" Value="28" />
+                <Setter Property="Height" Value="28" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="FontFamily" Value="Segoe Fluent Icons" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+
+            <Style x:Key="AdminRowDangerActionButtonStyle" TargetType="Button" BasedOn="{StaticResource AdminRowActionButtonStyle}">
+                <Setter Property="Background" Value="{StaticResource IndustrialSurfaceBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource IndustrialDangerBrush}" />
+            </Style>
+
+            <Style x:Key="AdminIconDangerRowButtonStyle" TargetType="Button" BasedOn="{StaticResource AdminIconRowButtonStyle}">
+                <Setter Property="Background" Value="{StaticResource IndustrialSurfaceBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource IndustrialDangerBrush}" />
+            </Style>
+
+            <Style x:Key="AdminIconDeleteRowButtonStyle" TargetType="Button" BasedOn="{StaticResource AdminIconRowButtonStyle}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextMutedBrush}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="{StaticResource IndustrialDangerBrush}" />
+                        <Setter Property="BorderBrush" Value="#E1A5A0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="AdminSlotDataGridStyle" TargetType="DataGrid" BasedOn="{StaticResource IndustrialDataGridStyle}">
+                <Setter Property="RowHeight" Value="40" />
+                <Setter Property="ColumnHeaderStyle">
+                    <Setter.Value>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="MinHeight" Value="36" />
+                            <Setter Property="Background" Value="#F1F5F8" />
+                            <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+                            <Setter Property="BorderThickness" Value="0,0,1,1" />
+                            <Setter Property="Padding" Value="10,6" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter Property="Foreground" Value="{StaticResource IndustrialTextSecondaryBrush}" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="RowStyle">
+                    <Setter.Value>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="#FBFCFE" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F5FAFD" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E7F2FB" />
+                                    <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="190" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="*" MinWidth="720" />
+        </Grid.ColumnDefinitions>
+
+        <Border x:Name="AdminNavigationRail"
+                Grid.Column="0"
+                Padding="14"
+                Background="{StaticResource IndustrialMutedPanelBrush}"
+                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                BorderThickness="0"
+                CornerRadius="10">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="配置目录"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextBrush}" />
+                    <TextBlock Text="按维护对象切换配置区。"
+                               Margin="0,5,0,0"
+                               FontSize="12"
+                               Foreground="{StaticResource IndustrialTextMutedBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ListBox SelectedIndex="{Binding SelectedIndex, ElementName=AdminConfigTabs, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ItemContainerStyle="{StaticResource AdminSectionListBoxItemStyle}">
+                    <ListBoxItem Content="工位 / 槽位配置" IsSelected="True" />
+                    <ListBoxItem Content="设备型号配置" />
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <Grid x:Name="AdminConfigurationWorkspace" Grid.Column="2">
+            <TabControl x:Name="AdminConfigTabs"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ItemContainerStyle="{StaticResource HiddenAdminTabItemStyle}">
+                <TabItem x:Name="SlotConfigTab" Header="工位 / 槽位配置">
+                    <Grid x:Name="SlotCommunicationContent"
+                          HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+                                <TextBlock Text="槽位通信配置"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource IndustrialTextBrush}" />
+                                <TextBlock Text="配置每个槽位的串口、波特率和 Modbus 地址。"
+                                           Margin="0,4,0,0"
+                                           FontSize="12"
+                                           Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                <Button x:Name="RefreshSlotPortsButton"
+                                        MinHeight="34"
+                                        Padding="12,6"
+                                        Command="{Binding RefreshPortsCommand}"
+                                        Style="{StaticResource IndustrialCommandButtonStyle}">
+                                    <StackPanel Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource AdminToolbarTextStyle}" />
+                                        </StackPanel.Resources>
+                                        <TextBlock Text="&#xE895;"
+                                                   Style="{StaticResource AdminToolbarIconStyle}" />
+                                        <TextBlock Text="扫描串口"
+                                                   Style="{StaticResource AdminToolbarTextStyle}" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="SaveAllSlotsButton"
+                                        Margin="8,0,0,0"
+                                        MinHeight="34"
+                                        Padding="12,6"
+                                        Command="{Binding SaveAllSlotsCommand}"
+                                        Style="{StaticResource IndustrialCommandButtonStyle}">
+                                    <StackPanel Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource AdminToolbarTextStyle}" />
+                                        </StackPanel.Resources>
+                                        <TextBlock Text="&#xE74E;"
+                                                   Style="{StaticResource AdminToolbarIconStyle}" />
+                                        <TextBlock Text="保存配置"
+                                                   Style="{StaticResource AdminToolbarTextStyle}" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="AddSlotButton"
+                                        Margin="8,0,0,0"
+                                        MinHeight="34"
+                                        Padding="12,6"
+                                        Command="{Binding AddSlotCommand}"
+                                        Style="{StaticResource IndustrialPrimaryCommandButtonStyle}">
+                                    <StackPanel Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource AdminToolbarTextStyle}" />
+                                        </StackPanel.Resources>
+                                        <TextBlock Text="&#xE710;"
+                                                   Style="{StaticResource AdminToolbarIconStyle}" />
+                                        <TextBlock Text="新增槽位"
+                                                   Style="{StaticResource AdminToolbarTextStyle}" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="{Binding StatusMessage}"
+                                   Margin="0,0,0,10"
+                                   FontSize="12"
+                                   Foreground="{StaticResource IndustrialTextMutedBrush}"
+                                   TextWrapping="Wrap" />
+
+                        <DataGrid x:Name="SlotConfigGrid"
+                                  Grid.Row="2"
+                                  MaxHeight="438"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Top"
+                                  ItemsSource="{Binding Slots}"
+                                  SelectedItem="{Binding SelectedSlot, Mode=TwoWay}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserResizeColumns="False"
+                                  CanUserReorderColumns="False"
+                                  IsReadOnly="False"
+                                  Style="{StaticResource AdminSlotDataGridStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="槽位名称"
+                                                    Binding="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="1.3*" />
+                                <DataGridTemplateColumn Header="状态"
+                                                        IsReadOnly="True"
+                                                        CanUserResize="False"
+                                                        Width="56">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                <Ellipse Width="6"
+                                                         Height="6"
+                                                         Margin="0,0,6,0"
+                                                         VerticalAlignment="Center">
+                                                    <Ellipse.Style>
+                                                        <Style TargetType="Ellipse">
+                                                            <Setter Property="Fill" Value="{StaticResource IndustrialTextMutedBrush}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding StatusText}" Value="在线">
+                                                                    <Setter Property="Fill" Value="{StaticResource IndustrialSuccessBrush}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding StatusText}" Value="异常">
+                                                                    <Setter Property="Fill" Value="{StaticResource IndustrialDangerBrush}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Ellipse.Style>
+                                                </Ellipse>
+                                                <TextBlock Text="{Binding StatusText}"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="串口" Width="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox ItemsSource="{Binding DataContext.PortOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      SelectedItem="{Binding PortName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Style="{StaticResource AdminTableComboBoxStyle}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="波特率"
+                                                    Binding="{Binding BaudRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="110"
+                                                    ElementStyle="{StaticResource AdminCenteredCellTextStyle}"
+                                                    EditingElementStyle="{StaticResource AdminCenteredCellTextBoxStyle}" />
+                                <DataGridTextColumn Header="变频器地址"
+                                                    Binding="{Binding VfdAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="130"
+                                                    ElementStyle="{StaticResource AdminCenteredCellTextStyle}"
+                                                    EditingElementStyle="{StaticResource AdminCenteredCellTextBoxStyle}" />
+                                <DataGridTextColumn Header="电压表地址"
+                                                    Binding="{Binding VoltageMeterAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="130"
+                                                    ElementStyle="{StaticResource AdminCenteredCellTextStyle}"
+                                                    EditingElementStyle="{StaticResource AdminCenteredCellTextBoxStyle}" />
+                                <DataGridTextColumn Header="电流表地址"
+                                                    Binding="{Binding CurrentMeterAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="130"
+                                                    ElementStyle="{StaticResource AdminCenteredCellTextStyle}"
+                                                    EditingElementStyle="{StaticResource AdminCenteredCellTextBoxStyle}" />
+                                <DataGridTemplateColumn Header="操作" Width="64">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Center">
+                                                <Button Content="&#xE74D;"
+                                                        AutomationProperties.Name="删除槽位"
+                                                        ToolTip="删除槽位"
+                                                        Click="ConfirmDeleteSlot"
+                                                        Style="{StaticResource AdminIconDeleteRowButtonStyle}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="DeviceModelConfigTab" Header="设备型号配置">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="0.36*" />
+                            <RowDefinition Height="14" />
+                            <RowDefinition Height="0.64*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="设备型号"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextBrush}" />
+                            <TextBlock Text="维护 VFD、仪表等设备型号，并检查每个型号暴露的逻辑点位。"
+                                       Margin="0,4,0,0"
+                                       FontSize="12"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                        </StackPanel>
+
+                        <DataGrid x:Name="DeviceModelGrid"
+                                  Grid.Row="1"
+                                  MinHeight="150"
+                                  VerticalAlignment="Stretch"
+                                  ItemsSource="{Binding DeviceModels}"
+                                  SelectedItem="{Binding SelectedDeviceModel, Mode=TwoWay}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="False"
+                                  Style="{StaticResource IndustrialDataGridStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="设备型号" Binding="{Binding Name}" Width="220" />
+                                <DataGridTextColumn Header="角色" Binding="{Binding DeviceRole}" Width="120" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Border x:Name="SelectedDeviceModelPointPanel"
+                                Grid.Row="3"
+                                Padding="14"
+                                Background="{StaticResource IndustrialSurfaceBrush}"
+                                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding SelectedDeviceModel.Name}"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource IndustrialTextBrush}" />
+                                        <TextBlock Text="{Binding SelectedDeviceModel.DeviceRole}"
+                                                   Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Top">
+                                        <Border MinWidth="96"
+                                                Padding="10,5"
+                                                VerticalAlignment="Center"
+                                                Background="{StaticResource IndustrialSelectionBrush}"
+                                                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="6">
+                                            <TextBlock Text="{Binding SelectedDeviceModelPointCountText}"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource IndustrialAccentStrongBrush}" />
+                                        </Border>
+                                        <Button x:Name="AddLogicalPointButton"
+                                                Content="新增点位"
+                                                Margin="8,0,0,0"
+                                                Command="{Binding AddLogicalPointCommand}"
+                                                Style="{StaticResource AdminRowActionButtonStyle}" />
+                                        <Button x:Name="DeleteLogicalPointButton"
+                                                Content="删除点位"
+                                                Margin="6,0,0,0"
+                                                Command="{Binding DeleteLogicalPointCommand}"
+                                                Style="{StaticResource AdminRowDangerActionButtonStyle}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <DataGrid x:Name="SelectedDeviceModelPointGrid"
+                                          Grid.Row="2"
+                                          MinHeight="170"
+                                          ItemsSource="{Binding SelectedDeviceModelPoints}"
+                                          SelectedItem="{Binding SelectedLogicalPoint, Mode=TwoWay}"
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          IsReadOnly="False"
+                                          Style="{StaticResource IndustrialDataGridStyle}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="类型" Binding="{Binding PointKindDisplay}" IsReadOnly="True" Width="80" />
+                                        <DataGridTextColumn Header="&#x903B;&#x8F91;&#x70B9;&#x4F4D;" Binding="{Binding LogicalKey}" Width="170" />
+                                        <DataGridTextColumn Header="&#x663E;&#x793A;&#x540D;" Binding="{Binding DisplayName}" Width="150" />
+                                        <DataGridTextColumn Header="&#x529F;&#x80FD;&#x7801;" Binding="{Binding FunctionCode}" Width="80" />
+                                        <DataGridTextColumn Header="&#x5BC4;&#x5B58;&#x5668;&#x5730;&#x5740;" Binding="{Binding RegisterAddress, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="120" />
+                                        <DataGridTextColumn Header="&#x7C7B;&#x578B;" Binding="{Binding DataType}" Width="100" />
+                                        <DataGridTextColumn Header="&#x5355;&#x4F4D;" Binding="{Binding Unit}" Width="70" />
+                                        <DataGridTextColumn Header="&#x8BF4;&#x660E;" Binding="{Binding Notes}" Width="*" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>

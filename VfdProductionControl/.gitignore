@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.log
+logs/
+appsettings.Development.json
+*.db
+TestResults/
+.superpowers/

@@ -1,0 +1,583 @@
+<UserControl x:Class="VfdControl.App.Views.Operator.OperatorConsoleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:operatorViews="clr-namespace:VfdControl.App.Views.Operator"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             Loaded="OnLoaded"
+             Background="#F3F5F8">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/VfdControl.App;component/Resources/IndustrialTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <sys:Double x:Key="SlotCardMinWidth">280</sys:Double>
+            <sys:Double x:Key="SlotCardMinHeight">440</sys:Double>
+            <Style x:Key="SlotCardButtonStyle" TargetType="Button">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="MinWidth" Value="{StaticResource SlotCardMinWidth}" />
+                <Setter Property="MinHeight" Value="{StaticResource SlotCardMinHeight}" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border x:Name="OperatorTopActionBar"
+                Padding="10"
+                Background="{StaticResource IndustrialSurfaceBrush}"
+                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10">
+            <ScrollViewer x:Name="OperatorTopActionScroll"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled">
+            <Grid MinWidth="1060">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="34"
+                            Height="34"
+                            Margin="0,0,10,0"
+                            Background="{StaticResource IndustrialSelectionBrush}"
+                            BorderBrush="{StaticResource IndustrialAccentBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBlock Text="{Binding FlowStepDisplay}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource IndustrialAccentStrongBrush}" />
+                    </Border>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FlowStepName}"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource IndustrialTextBrush}" />
+                        <TextBlock Text="{Binding CurrentPrompt}"
+                                   Margin="0,2,0,0"
+                                   MaxWidth="360"
+                                   TextTrimming="CharacterEllipsis"
+                                   FontSize="12"
+                                   Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Grid Grid.Column="1"
+                      Margin="18,0,18,0"
+                      VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsEmployeeActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBox Width="150"
+                                 IsReadOnly="True"
+                                 Text="{Binding EmployeeCodeInput, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource IndustrialTextBoxStyle}" />
+                        <Button Content="&#x7B49;&#x5F85;&#x626B;&#x7801;"
+                                Margin="8,0,0,0"
+                                MinWidth="96"
+                                IsEnabled="False"
+                                ToolTipService.ShowOnDisabled="True"
+                                ToolTip="&#x5458;&#x5DE5;&#x7801;&#x53EA;&#x901A;&#x8FC7;&#x626B;&#x7801;&#x5F55;&#x5165;&#x3002;"
+                                Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsPlanActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ComboBox x:Name="PlanSelectorFlow"
+                                  Width="260"
+                                  ItemsSource="{Binding AvailablePlans}"
+                                  SelectedItem="{Binding SelectedPlanOption, Mode=TwoWay}"
+                                  DisplayMemberPath="DisplayName"
+                                  Style="{StaticResource IndustrialComboBoxStyle}" />
+                        <Button Content="&#x9009;&#x62E9;&#x65B9;&#x6848;"
+                                Margin="8,0,0,0"
+                                MinWidth="104"
+                                Command="{Binding SelectPlanCommand}"
+                                CommandParameter="{Binding SelectedItem, ElementName=PlanSelectorFlow}"
+                                Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsSlotActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Button Content="&#x786E;&#x8BA4;&#x69FD;&#x4F4D;"
+                                MinWidth="104"
+                                Command="{Binding ConfirmSlotsCommand}"
+                                Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                        <Button x:Name="ChangePlanButton"
+                                Content="&#x66F4;&#x6362;&#x65B9;&#x6848;"
+                                Margin="8,0,0,0"
+                                MinWidth="96"
+                                Command="{Binding ChangePlanCommand}"
+                                Visibility="{Binding IsChangePlanVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Style="{StaticResource IndustrialCommandButtonStyle}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsBarcodeActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBox x:Name="VfdBarcodeInput"
+                                 Width="260"
+                                 Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource IndustrialTextBoxStyle}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter" Command="{Binding ScanBarcodeCommand}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button x:Name="SubmitVfdBarcodeButton"
+                                Content="&#x5F55;&#x5165;&#x6761;&#x7801;"
+                                Margin="8,0,0,0"
+                                MinWidth="104"
+                                Command="{Binding ScanBarcodeCommand}"
+                                ToolTipService.ShowOnDisabled="True"
+                                ToolTip="&#x6D4B;&#x8BD5;&#x9636;&#x6BB5;&#x652F;&#x6301;&#x952E;&#x76D8;&#x5F55;&#x5165;&#xFF0C;&#x540E;&#x7EED;&#x53EF;&#x5207;&#x56DE;&#x4E32;&#x53E3;&#x626B;&#x7801;&#x67AA;&#x5F55;&#x5165;&#x3002;"
+                                Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                        <Button Content="&#x66F4;&#x6362;&#x65B9;&#x6848;"
+                                Margin="8,0,0,0"
+                                MinWidth="96"
+                                Command="{Binding ChangePlanCommand}"
+                                Visibility="{Binding IsChangePlanVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Style="{StaticResource IndustrialCommandButtonStyle}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsStartActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Button x:Name="TopStartRunButton"
+                                Content="&#x542F;&#x52A8;&#x6D4B;&#x8BD5;"
+                                MinWidth="120"
+                                Command="{Binding StartRunCommand}"
+                                Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                        <Button x:Name="TopStopRunButton"
+                                Content="&#x505C;&#x6B62;"
+                                Margin="8,0,0,0"
+                                MinWidth="90"
+                                IsEnabled="False"
+                                ToolTipService.ShowOnDisabled="True"
+                                ToolTip="&#x6A21;&#x62DF;&#x8FD0;&#x884C;&#x6682;&#x672A;&#x63A5;&#x5165;&#x4EBA;&#x5DE5;&#x505C;&#x6B62;&#x6D41;&#x7A0B;&#x3002;"
+                                Style="{StaticResource IndustrialDangerCommandButtonStyle}" />
+                        <Button Content="&#x66F4;&#x6362;&#x65B9;&#x6848;"
+                                Margin="8,0,0,0"
+                                MinWidth="96"
+                                Command="{Binding ChangePlanCommand}"
+                                Visibility="{Binding IsChangePlanVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Style="{StaticResource IndustrialCommandButtonStyle}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsRunningActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border Padding="12,8"
+                                Background="{StaticResource IndustrialRunningSurfaceBrush}"
+                                BorderBrush="{StaticResource IndustrialRunningBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8">
+                            <TextBlock Text="&#x6D4B;&#x8BD5;&#x8FD0;&#x884C;&#x4E2D;"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextBrush}" />
+                        </Border>
+                        <Button Content="&#x505C;&#x6B62;"
+                                Margin="8,0,0,0"
+                                MinWidth="90"
+                                IsEnabled="False"
+                                ToolTipService.ShowOnDisabled="True"
+                                ToolTip="&#x6A21;&#x62DF;&#x8FD0;&#x884C;&#x6682;&#x672A;&#x63A5;&#x5165;&#x4EBA;&#x5DE5;&#x505C;&#x6B62;&#x6D41;&#x7A0B;&#x3002;"
+                                Style="{StaticResource IndustrialDangerCommandButtonStyle}" />
+                    </StackPanel>
+
+                    <TextBlock Text="&#x6D4B;&#x8BD5;&#x5B8C;&#x6210;&#xFF0C;&#x8BF7;&#x67E5;&#x770B;&#x69FD;&#x4F4D;&#x7ED3;&#x8BBA;&#x548C;&#x6307;&#x4EE4;&#x65E5;&#x5FD7;&#x3002;"
+                               VerticalAlignment="Center"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextSecondaryBrush}"
+                               Visibility="{Binding IsCompletedActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
+
+                <TextBlock Grid.Column="2"
+                           Margin="0,0,18,0"
+                           VerticalAlignment="Center"
+                           MaxWidth="360"
+                           Text="{Binding StatusMessage}"
+                           TextTrimming="CharacterEllipsis"
+                           FontSize="12"
+                           Foreground="{StaticResource IndustrialTextMutedBrush}" />
+
+                <StackPanel Grid.Column="3"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Border Style="{StaticResource IndustrialMetricTileStyle}">
+                        <StackPanel>
+                            <TextBlock Text="&#x901A;&#x8FC7;"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            <TextBlock Text="{Binding PassCount}"
+                                       FontFamily="Cascadia Mono, Consolas"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialSuccessBrush}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource IndustrialMetricTileStyle}">
+                        <StackPanel>
+                            <TextBlock Text="&#x5931;&#x8D25;"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            <TextBlock Text="{Binding FailCount}"
+                                       FontFamily="Cascadia Mono, Consolas"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialDangerBrush}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource IndustrialMetricTileStyle}">
+                        <StackPanel>
+                            <TextBlock Text="&#x7528;&#x65F6;"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            <TextBlock Text="{Binding ElapsedDisplay}"
+                                       FontFamily="Cascadia Mono, Consolas"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextBrush}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <Grid x:Name="OperatorMainContentGrid"
+              Grid.Row="1"
+              Margin="0,12,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="OperatorSlotBoard"
+                    Padding="14"
+                    Background="{StaticResource IndustrialSurfaceBrush}"
+                    BorderBrush="{StaticResource IndustrialBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="10">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top"
+                          Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="槽位看板"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource IndustrialTextBrush}" />
+                        <TextBlock Grid.Column="1"
+                                   Text="状态 · 条码 · 步骤 · 测量 · 结论"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                    </Grid>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="SlotCardsItems"
+                                      ItemsSource="{Binding SlotCards}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding SlotBoardColumnCount}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.ToggleSlotCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource SlotCardButtonStyle}">
+                                        <operatorViews:SlotCardView />
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="0"
+                    Visibility="Collapsed"
+                    Padding="16"
+                    Background="{StaticResource IndustrialRaisedBrush}"
+                    BorderBrush="{StaticResource IndustrialBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Effect="{StaticResource IndustrialPanelShadow}">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top"
+                                Margin="0,0,0,16">
+                        <TextBlock Text="当前动作"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource IndustrialTextBrush}" />
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   Margin="0,5,0,0"
+                                   TextWrapping="Wrap"
+                                   FontSize="13"
+                                   Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Bottom"
+                                Margin="0,16,0,0">
+                        <Border Padding="12,10"
+                                Background="{StaticResource IndustrialMutedPanelBrush}"
+                                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8">
+                            <StackPanel>
+                                <TextBlock FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource IndustrialTextSecondaryBrush}">
+                                    <Run Text="员工：" />
+                                    <Run Text="{Binding EmployeeDisplay}" />
+                                </TextBlock>
+                                <TextBlock Margin="0,5,0,0"
+                                           FontSize="12"
+                                           TextTrimming="CharacterEllipsis"
+                                           Foreground="{StaticResource IndustrialTextMutedBrush}">
+                                    <Run Text="方案：" />
+                                    <Run Text="{Binding SelectedPlanDisplay}" />
+                                </TextBlock>
+                                <TextBlock Margin="0,5,0,0"
+                                           FontSize="12"
+                                           Foreground="{StaticResource IndustrialTextMutedBrush}">
+                                    <Run Text="工位：" />
+                                    <Run Text="{Binding StationDisplay}" />
+                                </TextBlock>
+                                <Button
+                                        Content="更换方案"
+                                        Margin="0,10,0,0"
+                                        Command="{Binding ChangePlanCommand}"
+                                        Visibility="{Binding IsChangePlanVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Style="{StaticResource IndustrialCommandButtonStyle}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Grid>
+                        <StackPanel Visibility="{Binding IsEmployeeActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="员工码"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            <TextBox Margin="0,7,0,10"
+                                     IsReadOnly="True"
+                                     Text="{Binding EmployeeCodeInput, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource IndustrialTextBoxStyle}" />
+                            <Button Content=""
+                                    IsEnabled="False"
+                                    ToolTipService.ShowOnDisabled="True"
+                                    ToolTip="员工码只能通过串口扫码枪录入。"
+                                    Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding IsPlanActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="测试方案"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            <ComboBox
+                                      Margin="0,7,0,10"
+                                      ItemsSource="{Binding AvailablePlans}"
+                                      SelectedItem="{Binding SelectedPlanOption, Mode=TwoWay}"
+                                      DisplayMemberPath="DisplayName"
+                                      Style="{StaticResource IndustrialComboBoxStyle}" />
+                            <Button Content="选择方案"
+                                    Command="{Binding SelectPlanCommand}"
+                                    CommandParameter="{Binding SelectedItem, ElementName=PlanSelectorFlow}"
+                                    Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding IsSlotActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="在槽位看板中选择本次测试槽位。"
+                                       TextWrapping="Wrap"
+                                       FontSize="13"
+                                       Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                            <Button Content="确认槽位"
+                                    Margin="0,12,0,0"
+                                    Command="{Binding ConfirmSlotsCommand}"
+                                    Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                            <UniformGrid Columns="2"
+                                         Margin="0,10,0,0">
+                                <Button Content="电压上电"
+                                        Margin="0,0,6,0"
+                                        IsEnabled="False"
+                                        ToolTipService.ShowOnDisabled="True"
+                                        ToolTip="当前阶段仅模拟槽位确认，电压上电尚未接入真实设备。"
+                                        Style="{StaticResource IndustrialCommandButtonStyle}" />
+                                <Button Content="电流上电"
+                                        Margin="6,0,0,0"
+                                        IsEnabled="False"
+                                        ToolTipService.ShowOnDisabled="True"
+                                        ToolTip="当前阶段仅模拟槽位确认，电流上电尚未接入真实设备。"
+                                        Style="{StaticResource IndustrialCommandButtonStyle}" />
+                            </UniformGrid>
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding IsBarcodeActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="VFD 条码"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                            <TextBox
+                                     Margin="0,7,0,10"
+                                     Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource IndustrialTextBoxStyle}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter" Command="{Binding ScanBarcodeCommand}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <Button
+                                    Content="录入条码"
+                                    Command="{Binding ScanBarcodeCommand}"
+                                    ToolTipService.ShowOnDisabled="True"
+                                    ToolTip="测试阶段支持键盘录入，后续可切回串口扫码枪录入。"
+                                    Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding IsStartActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="槽位和条码已就绪，确认后开始并行测试。"
+                                       TextWrapping="Wrap"
+                                       FontSize="13"
+                                       Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                            <Button Content="启动测试"
+                                    Margin="0,12,0,0"
+                                    Command="{Binding StartRunCommand}"
+                                    Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                            <Button Content="停止"
+                                    Margin="0,10,0,0"
+                                    IsEnabled="False"
+                                    ToolTipService.ShowOnDisabled="True"
+                                    ToolTip="模拟运行暂未接入人工停止流程。"
+                                    Style="{StaticResource IndustrialDangerCommandButtonStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding IsRunningActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Border Padding="12,10"
+                                    Background="{StaticResource IndustrialRunningSurfaceBrush}"
+                                    BorderBrush="{StaticResource IndustrialRunningBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+                                <TextBlock Text="测试运行中"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource IndustrialTextBrush}" />
+                            </Border>
+                            <Button Content="停止"
+                                    Margin="0,12,0,0"
+                                    IsEnabled="False"
+                                    ToolTipService.ShowOnDisabled="True"
+                                    ToolTip="模拟运行暂未接入人工停止流程。"
+                                    Style="{StaticResource IndustrialDangerCommandButtonStyle}" />
+                        </StackPanel>
+
+                        <TextBlock Text="测试完成，请查看槽位结论和指令日志。"
+                                   VerticalAlignment="Top"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   TextWrapping="Wrap"
+                                   Foreground="{StaticResource IndustrialTextSecondaryBrush}"
+                                   Visibility="{Binding IsCompletedActionVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </Grid>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="2"
+                Padding="14"
+                Background="{StaticResource IndustrialSurfaceBrush}"
+                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top"
+                      Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="InstructionLogTitle"
+                               Text="指令日志"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextBrush}" />
+                    <TextBlock Grid.Column="1"
+                               Text="发送 / 接收 / 步骤结果"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextMutedBrush}" />
+                </Grid>
+                <Grid MinHeight="160"
+                      MaxHeight="240">
+                    <DataGrid x:Name="InstructionLogGrid"
+                              MinHeight="160"
+                              MaxHeight="240"
+                              ItemsSource="{Binding InstructionRows}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True"
+                              Style="{StaticResource IndustrialDataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="No." Binding="{Binding Number}" Width="58" />
+                            <DataGridTextColumn Header="指令" Binding="{Binding Command}" Width="150" />
+                            <DataGridTextColumn Header="结果" Binding="{Binding Result}" Width="220" />
+                            <DataGridTextColumn Header="发送" Binding="{Binding Send}" Width="*" />
+                            <DataGridTextColumn Header="接收" Binding="{Binding Receive}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock x:Name="InstructionLogEmptyHint"
+                               Margin="0,44,0,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               IsHitTestVisible="False"
+                               Text="暂无指令记录，开始测试后显示发送和接收报文。"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextMutedBrush}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding InstructionRows.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

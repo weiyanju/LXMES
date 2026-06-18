@@ -1,0 +1,174 @@
+<UserControl x:Class="VfdControl.App.Views.Traceability.ExecutionHistoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/VfdControl.App;component/Resources/IndustrialTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="追溯查询"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextBrush}" />
+                <TextBlock Text="按时间、条码和结论筛选历史运行记录"
+                           Margin="0,4,0,0"
+                           FontSize="13"
+                           Foreground="{StaticResource IndustrialTextMutedBrush}" />
+            </StackPanel>
+
+            <ScrollViewer x:Name="HistoryFilterScroll"
+                          Grid.Row="1"
+                          Margin="0,16,0,14"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled">
+            <Grid MinWidth="520">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="12" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="开始日期"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                <TextBlock Grid.Column="2"
+                           Text="结束日期"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                <DatePicker x:Name="FromDatePicker"
+                            Grid.Row="2"
+                            SelectedDate="{Binding FromDate}"
+                            Style="{StaticResource IndustrialDatePickerStyle}" />
+                <DatePicker x:Name="ToDatePicker"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            SelectedDate="{Binding ToDate}"
+                            Style="{StaticResource IndustrialDatePickerStyle}" />
+
+                <TextBlock Grid.Row="4"
+                           Text="VFD 条码"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                <TextBlock Grid.Row="4"
+                           Grid.Column="2"
+                           Text="结论"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextSecondaryBrush}" />
+                <TextBox x:Name="BarcodeFilterInput"
+                         Grid.Row="6"
+                         Text="{Binding BarcodeFilter, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource IndustrialTextBoxStyle}" />
+                <ComboBox x:Name="ConclusionFilterCombo"
+                          Grid.Row="6"
+                          Grid.Column="2"
+                          ItemsSource="{Binding ConclusionOptions}"
+                          SelectedItem="{Binding SelectedConclusion}"
+                          DisplayMemberPath="DisplayName"
+                          Style="{StaticResource IndustrialComboBoxStyle}" />
+            </Grid>
+            </ScrollViewer>
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.7*" />
+                </Grid.RowDefinitions>
+
+                <DockPanel>
+                    <TextBlock Text="设备运行记录"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IndustrialTextBrush}" />
+                    <Button DockPanel.Dock="Right"
+                            Content="查询"
+                            Command="{Binding SearchCommand}"
+                            Width="84"
+                            Style="{StaticResource IndustrialPrimaryCommandButtonStyle}" />
+                </DockPanel>
+
+                <DataGrid Grid.Row="1"
+                          Margin="0,8,0,0"
+                          ItemsSource="{Binding DeviceRuns}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          Style="{StaticResource IndustrialDataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="条码" Binding="{Binding Barcode}" Width="*" />
+                        <DataGridTextColumn Header="结论" Binding="{Binding Conclusion}" Width="70" />
+                        <DataGridTextColumn Header="开始时间" Binding="{Binding StartedAt}" Width="140" />
+                        <DataGridTemplateColumn Header="详情" Width="64">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="打开"
+                                            Command="{Binding DataContext.OpenDeviceRunCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            MinHeight="30"
+                                            MinWidth="58"
+                                            Padding="8,0"
+                                            Style="{StaticResource IndustrialCommandButtonStyle}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Grid.Row="3"
+                           Text="生产会话"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource IndustrialTextBrush}" />
+                <DataGrid Grid.Row="4"
+                          Margin="0,8,0,0"
+                          ItemsSource="{Binding Sessions}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          Style="{StaticResource IndustrialDataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="员工" Binding="{Binding OperatorCode}" Width="90" />
+                        <DataGridTextColumn Header="结论" Binding="{Binding Conclusion}" Width="70" />
+                        <DataGridTextColumn Header="数量" Binding="{Binding DeviceRunCount}" Width="58" />
+                        <DataGridTextColumn Header="开始时间" Binding="{Binding StartedAt}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <TextBlock Grid.Row="3"
+                       Text="{Binding StatusMessage}"
+                       Margin="0,12,0,0"
+                       FontSize="13"
+                       Foreground="{StaticResource IndustrialTextMutedBrush}"
+                       TextWrapping="Wrap" />
+    </Grid>
+</UserControl>

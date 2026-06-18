@@ -1,0 +1,423 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="IndustrialBackgroundColor">#F3F5F8</Color>
+    <Color x:Key="IndustrialSurfaceColor">#FBFCFE</Color>
+    <Color x:Key="IndustrialRaisedColor">#FEFFFF</Color>
+    <Color x:Key="IndustrialControlColor">#E9EDF2</Color>
+    <Color x:Key="IndustrialTopbarColor">#FBFCFE</Color>
+    <Color x:Key="IndustrialTopbarStrongColor">#D6DCE4</Color>
+    <Color x:Key="IndustrialBorderColor">#D6DCE4</Color>
+    <Color x:Key="IndustrialBorderStrongColor">#B8C2CE</Color>
+    <Color x:Key="IndustrialTextColor">#1F2933</Color>
+    <Color x:Key="IndustrialTextSecondaryColor">#4B5563</Color>
+    <Color x:Key="IndustrialTextMutedColor">#6B7280</Color>
+    <Color x:Key="IndustrialInverseTextColor">#FBFDFF</Color>
+    <Color x:Key="IndustrialAccentColor">#007AFF</Color>
+    <Color x:Key="IndustrialAccentStrongColor">#005BBF</Color>
+    <Color x:Key="IndustrialSuccessColor">#34C759</Color>
+    <Color x:Key="IndustrialWarningColor">#FFB020</Color>
+    <Color x:Key="IndustrialDangerColor">#FF3B30</Color>
+    <Color x:Key="IndustrialRunningColor">#5856D6</Color>
+
+    <SolidColorBrush x:Key="IndustrialBackgroundBrush" Color="{StaticResource IndustrialBackgroundColor}" />
+    <SolidColorBrush x:Key="IndustrialSurfaceBrush" Color="{StaticResource IndustrialSurfaceColor}" />
+    <SolidColorBrush x:Key="IndustrialRaisedBrush" Color="{StaticResource IndustrialRaisedColor}" />
+    <SolidColorBrush x:Key="IndustrialControlBrush" Color="{StaticResource IndustrialControlColor}" />
+    <SolidColorBrush x:Key="IndustrialTopbarBrush" Color="{StaticResource IndustrialTopbarColor}" />
+    <SolidColorBrush x:Key="IndustrialTopbarStrongBrush" Color="{StaticResource IndustrialTopbarStrongColor}" />
+    <SolidColorBrush x:Key="IndustrialBorderBrush" Color="{StaticResource IndustrialBorderColor}" />
+    <SolidColorBrush x:Key="IndustrialBorderStrongBrush" Color="{StaticResource IndustrialBorderStrongColor}" />
+    <SolidColorBrush x:Key="IndustrialTextBrush" Color="{StaticResource IndustrialTextColor}" />
+    <SolidColorBrush x:Key="IndustrialTextSecondaryBrush" Color="{StaticResource IndustrialTextSecondaryColor}" />
+    <SolidColorBrush x:Key="IndustrialTextMutedBrush" Color="{StaticResource IndustrialTextMutedColor}" />
+    <SolidColorBrush x:Key="IndustrialInverseTextBrush" Color="{StaticResource IndustrialInverseTextColor}" />
+    <SolidColorBrush x:Key="IndustrialAccentBrush" Color="{StaticResource IndustrialAccentColor}" />
+    <SolidColorBrush x:Key="IndustrialAccentStrongBrush" Color="{StaticResource IndustrialAccentStrongColor}" />
+    <SolidColorBrush x:Key="IndustrialSuccessBrush" Color="{StaticResource IndustrialSuccessColor}" />
+    <SolidColorBrush x:Key="IndustrialWarningBrush" Color="{StaticResource IndustrialWarningColor}" />
+    <SolidColorBrush x:Key="IndustrialDangerBrush" Color="{StaticResource IndustrialDangerColor}" />
+    <SolidColorBrush x:Key="IndustrialRunningBrush" Color="{StaticResource IndustrialRunningColor}" />
+    <SolidColorBrush x:Key="IndustrialMutedPanelBrush" Color="#EEF2F6" />
+    <SolidColorBrush x:Key="IndustrialSelectionBrush" Color="#E5F1FF" />
+    <SolidColorBrush x:Key="IndustrialDisabledControlBrush" Color="#E3E8EE" />
+    <SolidColorBrush x:Key="IndustrialDisabledBorderBrush" Color="#C5CED8" />
+    <SolidColorBrush x:Key="IndustrialDisabledTextBrush" Color="#7B8794" />
+    <SolidColorBrush x:Key="IndustrialSuccessSurfaceBrush" Color="#E6F8EE" />
+    <SolidColorBrush x:Key="IndustrialWarningSurfaceBrush" Color="#FFF5DB" />
+    <SolidColorBrush x:Key="IndustrialDangerSurfaceBrush" Color="#FFE9E7" />
+    <SolidColorBrush x:Key="IndustrialRunningSurfaceBrush" Color="#ECEBFF" />
+
+    <DropShadowEffect x:Key="IndustrialPanelShadow"
+                      BlurRadius="18"
+                      Direction="270"
+                      Opacity="0.12"
+                      ShadowDepth="2"
+                      Color="#6B7280" />
+
+    <Style x:Key="IndustrialCommandButtonStyle" TargetType="Button">
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="MinWidth" Value="94" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Background" Value="{StaticResource IndustrialControlBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Chrome"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <Border x:Name="InnerHighlight"
+                                    BorderBrush="#FFFFFF"
+                                    BorderThickness="1,1,0,0"
+                                    CornerRadius="7"
+                                    IsHitTestVisible="False"
+                                    Opacity="0.55" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"
+                                              TextElement.Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"
+                                              TextElement.FontSize="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                              TextElement.FontWeight="{Binding FontWeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                              TextOptions.TextFormattingMode="Display"
+                                              TextOptions.TextHintingMode="Fixed"
+                                              TextOptions.TextRenderingMode="Grayscale" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Chrome" Property="Background" Value="#D2E0E8" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                            <Setter Property="Background" Value="{StaticResource IndustrialDisabledControlBrush}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource IndustrialDisabledBorderBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource IndustrialDisabledTextBrush}" />
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource IndustrialDisabledControlBrush}" />
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialDisabledBorderBrush}" />
+                            <Setter TargetName="InnerHighlight" Property="Opacity" Value="0.35" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IndustrialPrimaryCommandButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource IndustrialCommandButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource IndustrialAccentBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialAccentStrongBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialInverseTextBrush}" />
+    </Style>
+
+    <Style x:Key="IndustrialDangerCommandButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource IndustrialCommandButtonStyle}">
+        <Setter Property="Background" Value="#F3D8D8" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialDangerBrush}" />
+        <Setter Property="Foreground" Value="#8F1F1F" />
+    </Style>
+
+    <Style x:Key="IndustrialTopNavigationButtonStyle" TargetType="Button">
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="108" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+        <Setter Property="Padding" Value="12,7" />
+        <Setter Property="Background" Value="{StaticResource IndustrialSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextSecondaryBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Chrome"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="9">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource IndustrialSelectionBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                <Setter Property="Background" Value="{StaticResource IndustrialSelectionBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource IndustrialAccentStrongBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="IndustrialModulePanelStyle" TargetType="Border">
+        <Setter Property="Padding" Value="18" />
+        <Setter Property="Background" Value="{StaticResource IndustrialRaisedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10" />
+    </Style>
+
+    <Style x:Key="IndustrialSoftCardStyle" TargetType="Border">
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="Background" Value="{StaticResource IndustrialMutedPanelBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style x:Key="IndustrialTextBoxStyle" TargetType="TextBox">
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Background" Value="{StaticResource IndustrialRaisedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="IndustrialComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="Background" Value="{StaticResource IndustrialRaisedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton"
+                                      Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                      BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"
+                                      FocusVisualStyle="{x:Null}"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ClickMode="Press">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="Chrome"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="34" />
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                              VerticalAlignment="Center"
+                                                              HorizontalAlignment="Left"
+                                                              RecognizesAccessKey="True" />
+                                            <Path Grid.Column="1"
+                                                  Width="7"
+                                                  Height="4"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Fill="{StaticResource IndustrialTextMutedBrush}"
+                                                  Data="M 0 0 L 8 0 L 4 5 Z" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialBorderStrongBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource IndustrialDisabledControlBrush}" />
+                                            <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource IndustrialDisabledBorderBrush}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <ContentPresenter x:Name="ContentSite"
+                                          Margin="{TemplateBinding Padding}"
+                                          IsHitTestVisible="False"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left" />
+
+                        <TextBox x:Name="PART_EditableTextBox"
+                                 Margin="10,0,34,0"
+                                 VerticalAlignment="Center"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Foreground="{TemplateBinding Foreground}"
+                                 FontSize="{TemplateBinding FontSize}"
+                                 Visibility="Hidden"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}" />
+
+                        <Popup x:Name="Popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Fade">
+                            <Border MinWidth="{TemplateBinding ActualWidth}"
+                                    Margin="0,4,0,0"
+                                    Padding="4"
+                                    Background="{StaticResource IndustrialSurfaceBrush}"
+                                    BorderBrush="{StaticResource IndustrialBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="6">
+                                <ScrollViewer MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEditable" Value="True">
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{StaticResource IndustrialBorderStrongBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ToggleButton" Property="Background" Value="{StaticResource IndustrialDisabledControlBrush}" />
+                            <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{StaticResource IndustrialDisabledBorderBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource IndustrialDisabledTextBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ComboBox" BasedOn="{StaticResource IndustrialComboBoxStyle}" />
+
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Padding" Value="10,7" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+        <Setter Property="Background" Value="{StaticResource IndustrialSurfaceBrush}" />
+        <Setter Property="FontSize" Value="13" />
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource IndustrialSelectionBrush}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource IndustrialSelectionBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource IndustrialAccentStrongBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="IndustrialDatePickerStyle" TargetType="DatePicker">
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="Padding" Value="10,7" />
+        <Setter Property="Background" Value="{StaticResource IndustrialRaisedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="IndustrialPanelBorderStyle" TargetType="Border">
+        <Setter Property="Padding" Value="14" />
+        <Setter Property="Background" Value="{StaticResource IndustrialSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Effect" Value="{StaticResource IndustrialPanelShadow}" />
+    </Style>
+
+    <Style x:Key="IndustrialMetricTileStyle" TargetType="Border">
+        <Setter Property="Padding" Value="12,7" />
+        <Setter Property="Background" Value="{StaticResource IndustrialRaisedBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+    </Style>
+
+    <Style x:Key="IndustrialDataGridStyle" TargetType="DataGrid">
+        <Setter Property="Background" Value="#F9FBFC" />
+        <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="#DFE7EC" />
+        <Setter Property="RowHeight" Value="30" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{StaticResource IndustrialMutedPanelBrush}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}" />
+                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                    <Setter Property="Padding" Value="10,7" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Foreground" Value="{StaticResource IndustrialTextSecondaryBrush}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="#F9FBFC" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource IndustrialSelectionBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#CBE7F5" />
+                            <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="10,0" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
