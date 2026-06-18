@@ -1,4 +1,5 @@
 # Legacy version-control metadata
+.worktrees/
 .svn/
 **/.svn/
 **/.git/
