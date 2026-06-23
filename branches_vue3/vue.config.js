@@ -5,28 +5,22 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+const apiProxyTarget = process.env.VUE_APP_PROXY_TARGET || 'http://127.0.0.1:8000'
+
 module.exports = {
   lintOnSave: false,
     devServer: {
         host: '0.0.0.0',
         port: 8080,
         proxy: {
-            // 这条暂时用不上，但留着无妨
-            // '/api': {
-            //     target: 'http://192.168.15.70:8000',   // 👈 IP 建议改成你实际测试通的 15.65
-            //     changeOrigin: true,
-            //     pathRewrite: { '^/api': '' }
-            // },
-            // '/media': {
-            //     target: 'http://192.168.15.70:8000',
-            //     changeOrigin: true
-            // }
-            // 👇 新增这一条，专门代理登录和用户相关接口
-            // '/user': {
-            //     target: 'http://192.168.15.65:8000',   // 同上
-            //     changeOrigin: true
-            //     // 不需要 pathRewrite，因为后端接口正是以 /user 开头
-            // }
+            '/api': {
+                target: apiProxyTarget,
+                changeOrigin: true
+            },
+            '/media': {
+                target: apiProxyTarget,
+                changeOrigin: true
+            }
         }
     },
   chainWebpack(config) {

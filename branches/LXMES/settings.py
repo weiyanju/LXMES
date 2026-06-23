@@ -12,19 +12,36 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def _load_env_file(path):
+    if not path.exists():
+        return
+
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key:
+            os.environ.setdefault(key, value)
+
+
+_load_env_file(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-development-only')
 
 DEBUG = os.getenv('DJANGO_DEBUG', 'true').lower() in {'1', 'true', 'yes'}
 
 ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-    if host.strip()
+    "localhost",
+    "127.0.0.1",
+    "192.168.12.9",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -171,4 +188,23 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+SIMPLE_JWT = {
+    # 登录凭证有效期
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=8),
 
+    # 刷新凭证有效期
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+
+    # 前端请求头格式：Authorization: Bearer xxxxx
+    "AUTH_HEADER_TYPES": ("Bearer",),
+
+    # SysUser 的主键字段
+    "USER_ID_FIELD": "id",
+
+    # JWT 中存储用户编号的字段
+    "USER_ID_CLAIM": "user_id",
+
+    # 暂时关闭 refresh token 轮换
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+}
